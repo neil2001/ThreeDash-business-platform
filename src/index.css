@@ -1,0 +1,352 @@
+.title {
+  text-align: center;
+  margin: 20px;
+}
+.sideBarTitle {
+  text-align: center;
+  margin: 20px;
+  color: white;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.bigH1 {
+  font-size: 60pt;
+  text-decoration: underline;
+}
+
+body .jumbotron {
+  /* height: 100%; */
+  padding-top: 20vh;
+  padding-left: 8vw;
+  /* padding-bottom: 40vh; */
+  height: 100%;
+  /* background-image: url("chicago.jpg"); */
+  background: white;
+}
+
+body {
+  background-color: #f0f4f7;
+
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+table {
+  /* border-collapse: collapse; */
+  background: white;
+
+  border: 0px solid white;
+  border-radius: 5px;
+}
+
+thead {
+  border-top: 0px;
+}
+
+body .pro-sidebar {
+  height: 100vh;
+  width: 240px;
+  min-width: 100px;
+}
+
+body .pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout {
+  background: #24263c;
+}
+
+body .pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item {
+  padding-top: 5vh;
+  text-align: center;
+}
+
+tr {
+  border: 2px solid #f0f4f7;
+}
+
+tr:hover {
+  background: lightgray;
+}
+
+td {
+  /* border: 1px solid black; */
+  text-align: center;
+  width: 10vw;
+  padding: 10px;
+}
+
+.assignTable {
+  width: 70vw;
+  margin: auto;
+}
+
+.fulfillTable {
+  width: 40vw;
+  padding: 20px;
+  margin: auto;
+}
+
+.headDiv {
+  text-align: center;
+}
+
+.centerDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.assignForm {
+  width: 60vw;
+  margin: auto;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  float: left;
+  margin: auto;
+  padding: 0;
+  list-style: none;
+}
+.nav li {
+  float: left;
+}
+
+.nav li a {
+  display: block;
+  padding: 8px 15px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #069;
+  border-right: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.formSection {
+  padding-left: 10vw;
+  padding-right: 10vw;
+  margin: 40px;
+}
+
+section {
+  text-align: center;
+}
+
+.buttonMargin {
+  margin: 10px;
+  width: 12vw;
+  color: white;
+  background: #3799ec;
+  border: 0px;
+  padding: 8px;
+  border-radius: 30px;
+}
+
+.stopButton {
+  margin: 10px;
+  width: 10vw;
+  color: white;
+  background: rgb(255, 93, 93);
+  border: 0px;
+  padding: 8px;
+  border-radius: 30px;
+}
+
+.whiteButton {
+  /* margin: 10px; */
+  width: 9vw;
+  background: white;
+  border: 0px;
+  padding: 6px;
+  border-radius: 30px;
+  color: #3799ec;
+}
+
+.featureBox {
+  flex: 50%;
+  text-align: center;
+  margin-right: 3vw;
+  margin-left: 3vw;
+  margin-top: auto;
+  margin-bottom: 5vh;
+  padding: 20px;
+  border-radius: 80px;
+  background: #3799ec;
+  color: white;
+}
+
+.homeColumn {
+  float: left;
+  width: 55%;
+  padding-bottom: 0px;
+}
+.buttonColumn {
+  float: left;
+  width: 45%;
+  padding: 5vh;
+  padding-left: 0;
+  padding-right: 6vw;
+}
+
+.menuColumn {
+  float: left;
+  width: 14vw;
+  margin-bottom: 0px;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item > .pro-item-content {
+  white-space: normal;
+  font-size: 14pt;
+  color: white;
+}
+
+.wcwOrder {
+}
+
+.contentColumn {
+  float: left;
+  width: 86vw;
+  padding-left: 0vw;
+  margin-bottom: 0px;
+}
+
+.row {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.longInput {
+  width: 25vw;
+}
+
+.tallInput {
+  width: 25vw;
+  height: 15vh;
+}
+
+.noteDeleteButton {
+  background: #3799ec;
+  color: white;
+  width: 100px;
+  border: 0px;
+  border-radius: 30px;
+  display: table-cell;
+  vertical-align: center;
+}
+
+.newNoteBox {
+  /* flex: 25%; */
+  padding: 10px;
+  display: table;
+  height: auto;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.noteBox {
+  display: table;
+  height: auto;
+  float: left;
+  width: 20vw;
+  /* flex: 25%; */
+  padding: 10px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.noteBox:hover {
+  background: white;
+}
+
+.featureBox:hover {
+  box-shadow: 5px 5px 5px gray;
+}
+
+.printerBox {
+  flex: 25%;
+  padding: 10px;
+  /* border: 1px solid gray; */
+  margin: 3vw;
+  margin-top: 1vw;
+  background: white;
+  border-radius: 10px;
+}
+.printerBox:hover {
+  box-shadow: 5px 5px 5px grey;
+}
+
+.printerImage {
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.centerBoldText {
+  text-align: center;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+.bg-dark {
+  background-color: white !important;
+  box-shadow: 0px 5px 5px lightgray;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #24263c;
+}
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #3799ec;
+}
+
+.navbar-dark .navbar-brand {
+  font-family: serif;
+  color: #24263c;
+}
+.navbar-dark .navbar-brand:hover {
+  color: #24263c;
+}
+
+.titleDiv {
+  padding: 40px;
+  margin: 0px;
+  width: 100%;
+  text-align: center;
+  background: white;
+}
+
+.titleDiv2 {
+  padding: 40px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+  background: white;
+}
+
+.centerPageDiv {
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}

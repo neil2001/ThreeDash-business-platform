@@ -53,8 +53,6 @@ const PrinterStatus = (props) => {
   };
 
   useEffect(() => {
-    // console.log("Functional Component has mounted")
-
     getPrinterInfo();
   }, []);
 

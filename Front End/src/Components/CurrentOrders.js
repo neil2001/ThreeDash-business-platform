@@ -51,8 +51,9 @@ const CurrentOrders = (props) => {
     const data = { ...order, date: dt };
     axios.post(dataURL + "/shippedOrders", data).then(() => {
       console.log("moved to shipped");
+      getOrders();
     });
-    deleteClick(order.number);
+    //deleteClick(order.number);
   };
 
   const renderOrders = () => {
@@ -66,7 +67,7 @@ const CurrentOrders = (props) => {
           <td>{order.notes}</td>
           <td>{order.status}</td>
           <td>
-            {order.status === "NEW" ? (
+            {order.status == "NEW" ? (
               <button
                 onClick={() => {
                   processingClick(order);

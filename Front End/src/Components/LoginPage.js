@@ -22,7 +22,7 @@ const LoginPage = (props) => {
   };
 
   const submitLogin = () => {
-    const data = { userId, password };
+    const data = { userID: userId, password };
     axios
       .post(dataURL, data)
       .then((result) => {

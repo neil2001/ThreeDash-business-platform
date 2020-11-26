@@ -43,19 +43,10 @@ const NewOrderForm = (props) => {
   };
 
   const onSubmit = () => {
-    // console.log("abc");
-    // console.log("number = " + number +
-    // " product = " + product +
-    // " color = " + color +
-    // " notes = " + notes)
-    //const data = {number: number, product: product, color: color, notes: notes}
     const data = { number, product: finalProduct, color, notes };
     axios
       .post(dataURL, data)
       .then((result) => {
-        //console.dir(result)
-        //alert("result = " + result);
-        //console.log('Data send');
         history.push("/wcw/manageOrders/current");
       })
       .catch((err) => {
@@ -129,12 +120,12 @@ const NewOrderForm = (props) => {
           </select>
           <p>Other Notes</p>
           <textarea onChange={onNotesChange} />
-          <div>
-            <button className="buttonMargin" onClick={onSubmit}>
-              Submit
-            </button>
-          </div>
         </form>
+        <div>
+          <button className="buttonMargin" onClick={onSubmit}>
+            Submit
+          </button>
+        </div>
       </section>
     </div>
   );

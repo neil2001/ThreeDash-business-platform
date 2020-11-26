@@ -47,7 +47,8 @@ const PrinterStatus = (props) => {
       },
     };
     axios.get(dataURL, config).then((result) => {
-      //console.dir(result);
+      console.log("print info: ");
+      console.dir(result);
       setPrinterInfo(result.data);
     });
   };
@@ -63,9 +64,9 @@ const PrinterStatus = (props) => {
 
   const getPrinterAttribute = (printerName, attribute) => {
     const wantedPrinter = printerInfo.find((element) => {
-      //console.log(element.printer);
+      //console.log(element.name);
       //console.log("printer name" + printerName)
-      return "" + element.printer === "" + printerName;
+      return "" + element.name === "" + printerName;
     });
 
     //console.log(wantedPrinter);
@@ -83,9 +84,9 @@ const PrinterStatus = (props) => {
 
   const getRemainingTime = (printerName) => {
     const wantedPrinter = printerInfo.find((element) => {
-      return element.printer === "" + printerName;
+      return element.name === "" + printerName;
     });
-    if (wantedPrinter !== undefined) {
+    if (wantedPrinter !== undefined && wantedPrinter.startTime != null) {
       const currentTime = new Date();
       const startTimeAsDate = new Date(wantedPrinter.startTime);
 
@@ -99,9 +100,6 @@ const PrinterStatus = (props) => {
       const mins = Math.floor(
         60 * ((startTimeAsDate - currentTime) / (3600 * 1000) - hrs)
       );
-      if (startTimeAsDate - currentTime <= 0) {
-        endJob(printerName);
-      }
       return hrs + "hr " + mins + "min";
     }
     return "";
@@ -109,9 +107,9 @@ const PrinterStatus = (props) => {
 
   const getEndTime = (printerName) => {
     const wantedPrinter = printerInfo.find((element) => {
-      return element.printer === "" + printerName;
+      return element.name === "" + printerName;
     });
-    if (wantedPrinter !== undefined) {
+    if (wantedPrinter !== undefined && wantedPrinter.startTime != null) {
       const currentTime = new Date();
       const startTimeAsDate = new Date(wantedPrinter.startTime);
 
@@ -119,9 +117,6 @@ const PrinterStatus = (props) => {
         startTimeAsDate.getHours() + wantedPrinter.printTime
       );
 
-      if (startTimeAsDate - currentTime <= 0) {
-        endJob(printerName);
-      }
       return startTimeAsDate.getHours() + ":" + startTimeAsDate.getMinutes();
     }
     return "";
@@ -221,7 +216,7 @@ const PrinterStatus = (props) => {
           <img src={printer} className="printerImage"></img>
           <p className="centerBoldText">Old Faithful</p>
           <div className="centerDiv">
-            {getPrinterAttribute("Old Faithful", "product") === "" &&
+            {getPrinterAttribute("Old Faithful", "product") == null &&
             oldFaithfulStatus !== "showForm" ? (
               <button
                 className="buttonMargin"
@@ -242,7 +237,7 @@ const PrinterStatus = (props) => {
           <p>Time Remaining: {getRemainingTime("Old Faithful")}</p>
           <p>End Time: {getEndTime("Old Faithful")}</p>
           <div className="centerDiv">
-            {getPrinterAttribute("Old Faithful", "product") !== "" ? (
+            {getPrinterAttribute("Old Faithful", "product") != null ? (
               <button
                 className="stopButton"
                 onClick={() => {
@@ -260,7 +255,7 @@ const PrinterStatus = (props) => {
           <img src={printer} className="printerImage"></img>
           <p className="centerBoldText">Yosemite</p>
           <div className="centerDiv">
-            {getPrinterAttribute("Yosemite", "product") === "" &&
+            {getPrinterAttribute("Yosemite", "product") == null &&
             yosemiteStatus !== "showForm" ? (
               <button
                 className="buttonMargin"
@@ -279,7 +274,7 @@ const PrinterStatus = (props) => {
           <p>Time Remaining: {getRemainingTime("Yosemite")}</p>
           <p>End Time: {getEndTime("Yosemite")}</p>
           <div className="centerDiv">
-            {getPrinterAttribute("Yosemite", "product") !== "" ? (
+            {getPrinterAttribute("Yosemite", "product") != null ? (
               <button
                 className="stopButton"
                 onClick={() => {
@@ -297,7 +292,7 @@ const PrinterStatus = (props) => {
           <img src={printer} className="printerImage"></img>
           <p className="centerBoldText">Mt. Rushmore</p>
           <div className="centerDiv">
-            {getPrinterAttribute("Mt. Rushmore", "product") === "" &&
+            {getPrinterAttribute("Mt. Rushmore", "product") == null &&
             mtRushmoreStatus !== "showForm" ? (
               <button
                 className="buttonMargin"
@@ -318,7 +313,7 @@ const PrinterStatus = (props) => {
           <p>Time Remaining: {getRemainingTime("Mt. Rushmore")}</p>
           <p>End Time: {getEndTime("Mt. Rushmore")}</p>
           <div className="centerDiv">
-            {getPrinterAttribute("Mt. Rushmore", "product") !== "" ? (
+            {getPrinterAttribute("Mt. Rushmore", "product") != null ? (
               <button
                 className="stopButton"
                 onClick={() => {
@@ -336,7 +331,7 @@ const PrinterStatus = (props) => {
           <img src={prusa} className="printerImage"></img>
           <p className="centerBoldText">Prusa Mini (PITA)</p>
           <div className="centerDiv">
-            {getPrinterAttribute("Prusa Mini", "product") === "" &&
+            {getPrinterAttribute("Prusa Mini", "product") == null &&
             prusaMiniStatus !== "showForm" ? (
               <button
                 className="buttonMargin"
@@ -355,7 +350,7 @@ const PrinterStatus = (props) => {
           <p>Time Remaining: {getRemainingTime("Prusa Mini")}</p>
           <p>End Time: {getEndTime("Prusa Mini")}</p>
           <div className="centerDiv">
-            {getPrinterAttribute("Prusa Mini", "product") !== "" ? (
+            {getPrinterAttribute("Prusa Mini", "product") != null ? (
               <button
                 className="stopButton"
                 onClick={() => {

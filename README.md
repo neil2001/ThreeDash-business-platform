@@ -25,6 +25,7 @@ This application was created in order to better keep track of orders and enable 
 Frontend
 
 ```sh
+$ cd "Front End"
 $ npm install
 $ npm start
 ```
@@ -32,7 +33,19 @@ $ npm start
 Backend
 
 ```sh
+$ cd "Back End"
 $ npm install
+```
+
+Start MySQL server, then run the following command to create the wcw database with all the tables using your root username and password
+
+```sh
+$ mysql wcw -u root -p < wcw.sql
+```
+
+Start Express server
+
+```sh
 $ node index2.js
 ```
 

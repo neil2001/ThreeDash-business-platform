@@ -7,6 +7,9 @@ const dataURL = "http://localhost:4000/shippedOrders";
 const ShippedOrders = (props) => {
   const [shippedOrders, setShippedOrders] = useState([]);
 
+  /**
+   * gets the shipped orders from the Shipped table using the backend
+   */
   const getShippedOrders = () => {
     const config = {
       headers: {
@@ -15,11 +18,14 @@ const ShippedOrders = (props) => {
       },
     };
     axios.get(dataURL, config).then((result) => {
-      //console.dir(result);
       setShippedOrders(result.data);
     });
   };
 
+  /**
+   * deletes an order corresponding to the given number num using the backend
+   * @param {int} num
+   */
   const deleteClick = (num) => {
     alert("Are you sure you would like to delete this order?");
     axios.delete(dataURL + "/" + num).then((result) => {
@@ -28,11 +34,14 @@ const ShippedOrders = (props) => {
   };
 
   useEffect(() => {
-    // console.log("Functional Component has mounted")
-
     getShippedOrders();
   }, []);
 
+  /**
+   * renders the shipped orders table
+   * each row is a different shipped order
+   * each cell is an attribute of that order
+   */
   const renderShipped = () => {
     const rows = [];
     shippedOrders.forEach((shippedOrder, index) => {
@@ -45,7 +54,6 @@ const ShippedOrders = (props) => {
           <td>Shipped</td>
           <td>{shippedOrder.shipDate}</td>
           <td>
-            {/* <button onClick={() => {processingClick(order.number, order.product, order.color);}}>Process</button> */}
             <button
               onClick={() => {
                 deleteClick(shippedOrder.number);
@@ -53,7 +61,6 @@ const ShippedOrders = (props) => {
             >
               Delete
             </button>
-            {/* <button>Mark As Done</button> */}
           </td>
         </tr>
       );
@@ -61,6 +68,9 @@ const ShippedOrders = (props) => {
     return rows;
   };
 
+  /**
+   * returns the necessary HTML elements to display the shipped orders
+   */
   return (
     <div>
       <h1 className="titleDiv2">These Orders Have Been Shipped</h1>

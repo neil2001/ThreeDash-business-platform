@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { useAuth } from "../App";
 
@@ -21,6 +21,9 @@ const LoginPage = (props) => {
     setPassword(event.target.value);
   };
 
+  /**
+   * pushes the inputs from the login to the backend for verification
+   */
   const submitLogin = () => {
     const data = { userID: userId, password };
     axios
@@ -37,6 +40,9 @@ const LoginPage = (props) => {
       });
   };
 
+  /**
+   * returns the html elements of the login page
+   */
   return (
     <div>
       <div className="centerPageDiv">

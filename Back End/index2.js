@@ -6,13 +6,6 @@ const port = 4000;
 const mysql = require("mysql");
 const { count } = require("console");
 
-// const dbConnect = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "NeilXu2001!",
-//   database: "wcw",
-// });
-
 var dbConnect = mysql.createPool({
   connectionLimit: 5,
   host: "localhost",
@@ -22,43 +15,12 @@ var dbConnect = mysql.createPool({
   //dateString: true,
 });
 
-// dbConnect.connect();
-
-// dbConnect.query(
-//   "select name,password from user where userID = 'test';",
-//   (err, rows, fields) => {
-//     if (err) throw err;
-
-//     console.log("The name is: ", rows[0].name);
-//   }
-// );
-
-//import 'bootstrap/dist/css/bootstrap.min.css';
-
 app.use(cors());
 app.use(express.json());
 
-//const orders = require("./data/orders.json");
-
-const readOrders = () => {
-  const orders = fs.readFileSync("./data/orders.json");
-  if (orders != "") {
-    const ordersJson = JSON.parse(orders);
-    console.dir(ordersJson);
-    return ordersJson;
-  }
-  return [];
-};
-
-const readFile = (fileLoc) => {
-  const filObj = fs.readFileSync(fileLoc);
-  if (filObj != "") {
-    const fileReturn = JSON.parse(filObj);
-    return fileReturn;
-  }
-  return [];
-};
-
+/**
+ * gets the orders that are marked as New or Assigned
+ */
 app.get("/orders", (req, res) => {
   dbConnect.query(
     "select * from orders where status !='SHIPPED'",
@@ -72,15 +34,16 @@ app.get("/orders", (req, res) => {
       rows.forEach((row) => {
         orders.push({ ...row });
       });
-      console.log("The product is: ", rows[0].product);
       res.send(orders);
     }
   );
 });
 
+/**
+ * creates a new order given a product, color, printTime, and notes input
+ */
 app.post("/order", (req, res) => {
   const sql = `insert into orders (product, color, printTime, notes) values ('${req.body.product}', '${req.body.color}', 6.5, '${req.body.notes}')`;
-  console.log("insert new order = " + sql);
   dbConnect.query(sql, (err, rows, fields) => {
     console.log("new order 80");
     if (err) {
@@ -93,6 +56,30 @@ app.post("/order", (req, res) => {
   });
 });
 
+/**
+ * deletes an order from the orders table based on its number
+ */
+app.delete("/orders/:id", (req, res) => {
+  const { id } = req.params;
+  console.log("id = " + id);
+  const sql = `delete from orders where number=${id}`;
+  console.log("sql= " + sql);
+  dbConnect.query(sql, (err, rows, fields) => {
+    if (err) {
+      console.log("order deletion failed");
+      res.status(500);
+      res.send("Order deletion failed");
+      return;
+    }
+    res.send("order deleted");
+  });
+});
+
+/**
+ * gets an assignment name and number from the Assignment table,
+ * and joins the Assignment table with the orders table by orderNumber to get
+ * product, color, processing status values, and notes
+ */
 app.get("/assigned", (req, res) => {
   dbConnect.query(
     `select a.name,o.number,o.product,o.color,o.retrieveSTL,o.startPrint,o.sand,o.package,o.ship,o.notes from Assignment a join orders o on o.number=a.orderNumber;`,
@@ -106,12 +93,15 @@ app.get("/assigned", (req, res) => {
       rows.forEach((row) => {
         assignments.push({ ...row });
       });
-      console.log("The assignee is: ", rows[0].name);
       res.send(assignments);
     }
   );
 });
 
+/**
+ * creates an assignment from a given name and orderNumber,
+ * updates the orders table to set the given order's status to ASSIGNED
+ */
 app.post("/assigned", (req, res) => {
   dbConnect.getConnection((err, connection) => {
     connection.query(
@@ -142,22 +132,11 @@ app.post("/assigned", (req, res) => {
   });
 });
 
-app.delete("/orders/:id", (req, res) => {
-  const { id } = req.params;
-  console.log("id = " + id);
-  dbConnect.query(
-    `delete from orders where number=${id}`,
-    (err, rows, fields) => {
-      if (err) {
-        res.status(500);
-        res.send("Order deletion failed");
-        return;
-      }
-      res.send("order deleted");
-    }
-  );
-});
-
+/**
+ * gets an shipped order date from the Shipped table,
+ * and joins the Shipped table with the orders table by orderNumber to get
+ * number, product, color, processing status values, and notes
+ */
 app.get("/shippedOrders", (req, res) => {
   dbConnect.query(
     `select s.shipDate,o.number,o.product,o.color,o.notes from Shipped s join orders o on o.number=s.orderNumber;`,
@@ -177,6 +156,10 @@ app.get("/shippedOrders", (req, res) => {
   );
 });
 
+/**
+ * deletes a shipped order from the Shipped table
+ * In: order number
+ */
 app.delete("/shippedOrders/:id", (req, res) => {
   const { id } = req.params;
   console.log("id = " + id);
@@ -193,6 +176,10 @@ app.delete("/shippedOrders/:id", (req, res) => {
   );
 });
 
+/**
+ * deletes an assignment from the Assignment table
+ * In: order number
+ */
 app.delete("/assigned/:id", (req, res) => {
   const { id } = req.params;
   console.log("id = " + id);
@@ -209,6 +196,11 @@ app.delete("/assigned/:id", (req, res) => {
   );
 });
 
+/**
+ * updates the orders table once an assignment is created.
+ * The value to be updated is given by the object passed in to the function.
+ * This function changes the given order status to be the value of the object passed in, generally "Not Complete".
+ */
 app.put("/assigned/:id", (req, res) => {
   console.log("updating assignments");
   const { id } = req.params;
@@ -243,6 +235,10 @@ app.put("/assigned/:id", (req, res) => {
   });
 });
 
+/**
+ * adds an order to the Shipped table
+ * updates the status of that order in the orders table to be "Shipped"
+ */
 app.post("/shippedOrders", (req, res) => {
   dbConnect.getConnection((err, connection) => {
     console.log("connected 121");
@@ -274,6 +270,9 @@ app.post("/shippedOrders", (req, res) => {
   });
 });
 
+/**
+ * gets the data from each printer in the Printer table
+ */
 app.get("/printData", (req, res) => {
   dbConnect.query("select * from Printer", (err, rows, fields) => {
     if (err) {
@@ -289,10 +288,13 @@ app.get("/printData", (req, res) => {
   });
 });
 
+/**
+ * updates the Printer table with a new print to a corresponding printer that is passed in
+ */
 app.put("/printData/newPrint/:printerName", (req, res) => {
   const { printerName } = req.params;
-  const sql = `update Printer set orderNumber=${req.body.number}, product='${req.body.product}', printTime='${req.body.printTime}', startTime=${req.body.startTime} where name='${printerName}'`;
-  console.log("sql= " + sql);
+  // const sql = `update Printer set orderNumber=${req.body.number}, product='${req.body.product}', printTime='${req.body.printTime}', startTime=${req.body.startTime} where name='${printerName}'`;
+  // console.log("sql= " + sql);
   dbConnect.query(
     `update Printer set orderNumber=${req.body.number}, product='${req.body.product}', printTime='${req.body.printTime}', startTime=current_timestamp() where name='${printerName}'`,
     (err, rows, fields) => {
@@ -302,21 +304,19 @@ app.put("/printData/newPrint/:printerName", (req, res) => {
         res.send("New print failed");
         return;
       }
-      // const printers = [];
-      // rows.forEach((row) => {
-      //   printers.push({ ...row });
-      // });
-      //console.log("The product is: ", rows[0].name);
+
       console.log("print sent successfully");
       res.send(rows[0]);
     }
   );
 });
 
+/**
+ * updates a printer in the Printer table once a print has finished
+ * replaces the orderNumber, product, printTime, and startTime of the desired printer with null
+ */
 app.put("/printData/clear/:printerName", (req, res) => {
   const { printerName } = req.params;
-  //const sql = `update Printer set orderNumber="", product="", printTime="",startTime="" where name='${printerName}'`;
-  //console.log(sql);
   dbConnect.query(
     `update Printer set orderNumber=null, product=null, printTime=null,startTime=null where name='${printerName}'`,
     (err, rows, fields) => {
@@ -327,17 +327,16 @@ app.put("/printData/clear/:printerName", (req, res) => {
         return;
       }
 
-      //console.log("The product is: ", rows[0].name);
       res.send("Clear Print Successful");
     }
   );
 });
 
+/**
+ * checks if the userID and password that someone entered are found within the user table
+ */
 app.post("/login", (req, res) => {
-  //const userData = readFile("./data/users.json");
   dbConnect.getConnection((err, connection) => {
-    //console.log("connected 121");
-
     connection.query(
       `select count(userID) as userCount from User where userID='${req.body.userID}'`,
       (err, rows, fields) => {
@@ -347,7 +346,6 @@ app.post("/login", (req, res) => {
           res.send("User not found");
           return;
         }
-
         connection.query(
           `select count(password) as passCount from User where password='${req.body.password}' and userID='${req.body.userID}'`,
           (err, rows, fields) => {
@@ -366,6 +364,9 @@ app.post("/login", (req, res) => {
   });
 });
 
+/**
+ * gets every note from the Notes table
+ */
 app.get("/notes", (req, res) => {
   dbConnect.query("select * from Notes", (err, rows, fields) => {
     if (err) {
@@ -377,11 +378,13 @@ app.get("/notes", (req, res) => {
     rows.forEach((row) => {
       notes.push({ ...row });
     });
-    //console.log("The product is: ", rows[0].name);
     res.send(notes);
   });
 });
 
+/**
+ * deletes a note from the Notes table
+ */
 app.delete("/notes/:id", (req, res) => {
   const { id } = req.params;
   console.log("id = " + id);
@@ -399,6 +402,9 @@ app.delete("/notes/:id", (req, res) => {
   );
 });
 
+/**
+ * creates a new note in the Notes table with the title and note passed in from the body
+ */
 app.post("/notes", (req, res) => {
   const sql = `insert into Notes (title,note,postDate) values ('${req.body.name}', '${req.body.note}',current_timestamp())`;
   console.log("sql: " + sql);
@@ -418,4 +424,3 @@ app.post("/notes", (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-// console.log("terminating connection");

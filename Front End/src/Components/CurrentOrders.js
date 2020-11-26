@@ -1,25 +1,33 @@
-import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import NewOrderForm from "./NewOrderForm";
-import AssigningPage from "./AssigningPage";
 import axios from "axios";
 
 const dataURL = "http://localhost:4000";
-
-//const dataURL = "https://pokeapi.co/api/v2/";
 
 const CurrentOrders = (props) => {
   const { path, url } = useRouteMatch();
 
   const history = useHistory();
+
+  /**
+   * takes a user to the new order form
+   */
   const formClick = () => {
     history.push("/wcw/manageOrders/newOrder");
   };
+
+  /**
+   * takes a user to the processing page where one can assign an order to another associate
+   * @param {order} order
+   */
   const processingClick = (order) => {
     history.push("/wcw/manageOrders/processing/" + order.number, { order });
   };
   const [orders, setOrders] = useState([]);
 
+  /**
+   * gets the orders from the backend
+   */
   const getOrders = () => {
     const config = {
       headers: {
@@ -28,17 +36,18 @@ const CurrentOrders = (props) => {
       },
     };
     axios.get(dataURL + "/orders", config).then((result) => {
-      //console.dir(result);
       setOrders(result.data);
     });
   };
 
   useEffect(() => {
-    // console.log("Functional Component has mounted")
-
     getOrders();
   }, []);
 
+  /**
+   * deletes an order by telling the backend to delete an order
+   * @param {int} num
+   */
   const deleteClick = (num) => {
     alert("Are you sure you want to delete this order?");
     axios.delete(dataURL + "/orders/" + num).then((result) => {
@@ -46,6 +55,10 @@ const CurrentOrders = (props) => {
     });
   };
 
+  /**
+   * moves an order to Shipped using the backend
+   * @param {order} order
+   */
   const moveToShipped = (order) => {
     const dt = new Date().toString();
     const data = { ...order, date: dt };
@@ -53,9 +66,13 @@ const CurrentOrders = (props) => {
       console.log("moved to shipped");
       getOrders();
     });
-    //deleteClick(order.number);
   };
 
+  /**
+   * goes through each order in the orders table and populates a table on the front end
+   * each row contains the information for one order
+   * each cell contains the desired info: number, product, color, etc.
+   */
   const renderOrders = () => {
     const rows = [];
     orders.forEach((order, index) => {
@@ -67,6 +84,7 @@ const CurrentOrders = (props) => {
           <td>{order.notes}</td>
           <td>{order.status}</td>
           <td>
+            {/* Only display the Assign button when the order status is NEW */}
             {order.status == "NEW" ? (
               <button
                 onClick={() => {
@@ -78,7 +96,6 @@ const CurrentOrders = (props) => {
             ) : (
               ""
             )}
-            {/* <button onClick={() => {processingClick(order);}}>Assign</button> */}
             <button
               onClick={() => {
                 deleteClick(order.number);
@@ -100,6 +117,9 @@ const CurrentOrders = (props) => {
     return rows;
   };
 
+  /**
+   * returns the necessary html components to display the orders.
+   */
   return (
     <div>
       <section>
@@ -124,10 +144,6 @@ const CurrentOrders = (props) => {
             </thead>
             <tbody>{renderOrders()}</tbody>
           </table>
-          {/* <Switch>
-                    <Route path={`${path}/newOrder`} component={NewOrderForm}/>
-                    <Route path={`${path}/processing`} component={AssigningPage}/>
-                </Switch> */}
         </div>
       </section>
     </div>

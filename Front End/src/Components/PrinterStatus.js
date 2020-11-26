@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { render } from "react-dom";
 import printer from "./Ender3V2.jpg";
 import prusa from "./prusamini.jpg";
 import axios from "axios";
@@ -27,18 +26,19 @@ const PrinterStatus = (props) => {
 
   const onNumberChange = (event) => {
     setNumber(event.target.value);
-    //console.dir(event);
   };
 
   const onProductChange = (event) => {
     setProduct(event.target.value);
-    //console.dir(event);
   };
 
   const onCustomProductChange = (event) => {
     setCustomProduct(event.target.value);
   };
 
+  /**
+   * gets the printer information from the backend
+   */
   const getPrinterInfo = () => {
     const config = {
       headers: {
@@ -62,17 +62,22 @@ const PrinterStatus = (props) => {
   const [mtRushmoreStatus, setMtRushmoreStatus] = useState("");
   const [prusaMiniStatus, setPrusaMiniStatus] = useState("");
 
+  /**
+   * returns the value of a given attribute of a given printer
+   * @param {String} printerName
+   * @param {String} attribute
+   */
   const getPrinterAttribute = (printerName, attribute) => {
     const wantedPrinter = printerInfo.find((element) => {
-      //console.log(element.name);
-      //console.log("printer name" + printerName)
       return "" + element.name === "" + printerName;
     });
-
-    //console.log(wantedPrinter);
     return wantedPrinter !== undefined ? wantedPrinter[attribute] : "";
   };
 
+  /**
+   * ends the job on a given printer using the backend
+   * @param {String} printerName
+   */
   const endJob = (printerName) => {
     console.log("ending Job");
     axios.put(dataURL + "/clear/" + printerName).then((result) => {
@@ -82,6 +87,11 @@ const PrinterStatus = (props) => {
     return "done";
   };
 
+  /**
+   * returns the remaining time in hours and minutes of the print job
+   * returns done if the print has already finished
+   * @param {String} printerName
+   */
   const getRemainingTime = (printerName) => {
     const wantedPrinter = printerInfo.find((element) => {
       return element.name === "" + printerName;
@@ -100,11 +110,18 @@ const PrinterStatus = (props) => {
       const mins = Math.floor(
         60 * ((startTimeAsDate - currentTime) / (3600 * 1000) - hrs)
       );
+      if (startTimeAsDate - currentTime <= 0) {
+        return "Done";
+      }
       return hrs + "hr " + mins + "min";
     }
     return "";
   };
 
+  /**
+   * returns the end time in 24hr time of the print job
+   * @param {String} printerName
+   */
   const getEndTime = (printerName) => {
     const wantedPrinter = printerInfo.find((element) => {
       return element.name === "" + printerName;
@@ -122,6 +139,10 @@ const PrinterStatus = (props) => {
     return "";
   };
 
+  /**
+   * sets a the status of the given printer to showForm, which shows the new print form
+   * @param {String} printerName
+   */
   const newJob = (printerName) => {
     if (printerName === "Mt. Rushmore") {
       setMtRushmoreStatus("showForm");
@@ -134,6 +155,10 @@ const PrinterStatus = (props) => {
     }
   };
 
+  /**
+   * returns the print time of a product
+   * @param {String} orderProduct
+   */
   const getPrintTime = (orderProduct) => {
     if (orderProduct === "Alto Mouthpiece") {
       return 5;
@@ -148,6 +173,11 @@ const PrinterStatus = (props) => {
     }
   };
 
+  /**
+   * starts a print by updating the printer status on the backend
+   * @param {String} printerName
+   * @param {int} printTime
+   */
   const startPrint = (printerName, printTime) => {
     console.log("starting job");
     const currentDate = new Date();
@@ -171,6 +201,10 @@ const PrinterStatus = (props) => {
     });
   };
 
+  /**
+   * renders the order form for a given printer
+   * @param {String} printerName
+   */
   const renderForm = (printerName) => {
     return (
       <form>
@@ -188,7 +222,7 @@ const PrinterStatus = (props) => {
           <div>
             <input type="text" onChange={onCustomProductChange} />
             <p>Print Duration:</p>
-            <input type="number" onChange={onDurationChange} />
+            <input type="number" step="0.25" onChange={onDurationChange} />
           </div>
         ) : (
           ""
@@ -207,10 +241,12 @@ const PrinterStatus = (props) => {
     );
   };
 
+  /**
+   * returns the HTML elements necessary to display the printers
+   */
   return (
     <div>
       <h1 className="titleDiv2">See What's On Our Printers</h1>
-      {/* {renderPrinters()} */}
       <div style={myRow}>
         <div className="printerBox">
           <img src={printer} className="printerImage"></img>

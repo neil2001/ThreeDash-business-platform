@@ -10,12 +10,14 @@ const shippedURL = "http://localhost:4000/shippedOrders";
 const FulfillmentPage = (props) => {
   const history = useHistory();
   const { orderNum } = useParams();
-  const [assignment, setAssignment] = useState("");
   const [isComplete, setComplete] = useState(false);
   const [order, setOrder] = useState(history.location.state.assignment);
 
-  let [task, setTask] = useState(0);
-
+  /**
+   * calls the backend to update an order such that a column in order,
+   * referenced by key, is changed to "Complete"
+   * @param {String} key
+   */
   const done = (key) => {
     const data = {};
     data[key] = "Complete";
@@ -30,11 +32,17 @@ const FulfillmentPage = (props) => {
       });
   };
 
+  /**
+   * calls the done function with parameter key and sets complete to be true
+   */
   const complete = (key) => {
     done(key);
     setComplete(true);
   };
 
+  /**
+   * moves an order to the shipped table using the backend, takes the user to the shipped page
+   */
   const moveToShipped = () => {
     const dt = new Date().toString();
     const data = { ...order, date: dt };
@@ -44,15 +52,12 @@ const FulfillmentPage = (props) => {
         console.log("assignment Deleted");
       });
     });
-
-    // axios.delete(ordersURL + "/" + order.number).then((result) => {
-    //     console.log("order has been deleted")
-    // })
     history.push("/wcw/manageOrders/shipped");
   };
 
-  const moveToShippedTest = () => {};
-
+  /**
+   * returns a table with each step in the fulfillment process and a button called "done"
+   */
   return (
     <div>
       <h1 className="centerDiv">Now Fulfilling Order: {orderNum}</h1>
@@ -148,7 +153,6 @@ const FulfillmentPage = (props) => {
               )}
             </td>
           </tr>
-          {/* {renderShipped()} */}
         </tbody>
       </table>
       <div className="centerDiv">

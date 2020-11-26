@@ -1,8 +1,6 @@
-import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import NewOrderForm from "./NewOrderForm";
-import ProcessingPage from "./AssigningPage";
-import FulfillmentPage from "./FulfillmentPage";
+
 import axios from "axios";
 
 const dataURL = "http://localhost:4000/notes";
@@ -24,6 +22,9 @@ const NotesPage = (props) => {
     setMessage(event.target.value);
   };
 
+  /**
+   * gets the notes from the backend
+   */
   const getNotes = () => {
     const config = {
       headers: {
@@ -43,6 +44,10 @@ const NotesPage = (props) => {
     getNotes();
   }, []);
 
+  /**
+   * deletes the note with number num using the backend
+   * @param {int} num
+   */
   const deleteClick = (num) => {
     alert("Are you sure you want to delete this note?");
     axios.delete(dataURL + "/" + num).then((result) => {
@@ -51,6 +56,9 @@ const NotesPage = (props) => {
     });
   };
 
+  /**
+   * creates a new note using the backend
+   */
   const noteSubmit = () => {
     const data = { name: title, note: message };
     axios
@@ -69,6 +77,9 @@ const NotesPage = (props) => {
       });
   };
 
+  /**
+   * returns all the notes by iterating backwards through the notes table
+   */
   const renderNotes = () => {
     const rows = [];
     for (let i = notes.length - 1; i >= 0; i--) {
@@ -94,10 +105,13 @@ const NotesPage = (props) => {
     return rows;
   };
 
+  /**
+   * returns the html elements necessary to display the notes
+   */
   return (
     <div>
       <h1 className="titleDiv2">Notes and Updates:</h1>
-      <div className="row">
+      <div className="noteRow">
         <div className="newNoteBox">
           <form>
             Title:

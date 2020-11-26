@@ -7,20 +7,19 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navbar, Nav, NavDropdown, Jumbotron } from "react-bootstrap";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 
 import CurrentOrders from "./CurrentOrders";
 import MyAssignments from "./MyAssignments";
 import ShippedOrders from "./ShippedOrders";
-import PrinterStatus from "./PrinterStatus";
 import NewOrderForm from "./NewOrderForm";
 import AssigningPage from "./AssigningPage";
-import AssignmentForm from "./AssignmentForm";
 import FulfillmentPage from "./FulfillmentPage";
-import HomePage from "./HomePage";
 
+/**
+ * Displays the order management interface and sets up the necessary menu and router elements
+ */
 const OrderManagement = (props) => {
   let { path, url } = useRouteMatch();
   return (
@@ -52,17 +51,10 @@ const OrderManagement = (props) => {
               <Route path={`${path}/current`} component={CurrentOrders} />
               <Route path={`${path}/assignments`} component={MyAssignments} />
               <Route path={`${path}/shipped`} component={ShippedOrders} />
-              {/* <Route exact path = "/assignments" component = {MyAssignments}/>
-                    <Route exact path = "/shipped" component = {ShippedOrders}/>
-                    <Route exact path = "/printers" component = {PrinterStatus}/> */}
               <Route path={`${path}/newOrder`} component={NewOrderForm} />
               <Route
                 path={`${path}/processing/:orderNum`}
                 component={AssigningPage}
-              />
-              <Route
-                path={`${path}/assign/:orderNum`}
-                component={AssignmentForm}
               />
               <Route
                 path={`${path}/fulfilling/:orderNum`}

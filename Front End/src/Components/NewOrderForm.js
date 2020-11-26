@@ -20,12 +20,10 @@ const NewOrderForm = (props) => {
 
   const onNumberChange = (event) => {
     setNumber(event.target.value);
-    //console.dir(event);
   };
 
   const onProductChange = (event) => {
     setProduct(event.target.value);
-    //console.dir(event);
   };
 
   const onFinalProductChange = (event) => {
@@ -34,14 +32,16 @@ const NewOrderForm = (props) => {
 
   const onColorChange = (event) => {
     setColor(event.target.value);
-    //console.dir(event);
   };
 
   const onNotesChange = (event) => {
     setNotes(event.target.value);
-    //console.dir(event);
   };
 
+  /**
+   * creates a new order by passing the input data to the backend
+   * takes the user to the current orders page if successful
+   */
   const onSubmit = () => {
     const data = { number, product: finalProduct, color, notes };
     axios
@@ -54,6 +54,9 @@ const NewOrderForm = (props) => {
       });
   };
 
+  /**
+   * returns the html for the order form
+   */
   return (
     <div>
       <section className="formSection">
@@ -69,6 +72,7 @@ const NewOrderForm = (props) => {
             <option value="soprano">Soprano Mouthpiece</option>
             <option value="other">other</option>
           </select>
+          {/* if the product is a saxophone mouthpiece, display tip opening and genre selection */}
           {product === "alto" ||
           product === "tenor" ||
           product === "bari" ||
@@ -97,12 +101,12 @@ const NewOrderForm = (props) => {
           ) : (
             ""
           )}
+          {/* if the product is other, display a custom input field for product */}
           {product === "other" ? (
             <input type="text" onChange={onFinalProductChange} />
           ) : (
             ""
           )}
-          {/* <div><button>Add Another Product</button></div> */}
           <p>Color</p>
           <select name="color" onChange={onColorChange}>
             <option value="red">Red</option>

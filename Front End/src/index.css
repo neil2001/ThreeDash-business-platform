@@ -18,7 +18,10 @@ body .jumbotron {
   /* height: 100%; */
   padding-top: 20vh;
   padding-left: 8vw;
-  /* padding-bottom: 40vh; */
+
+  margin-top: 56px;
+  margin-bottom: 0px;
+  padding-bottom: 30vh;
   height: 100%;
   /* background-image: url("chicago.jpg"); */
   background: white;
@@ -59,6 +62,8 @@ body .pro-sidebar {
 
 body .pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout {
   background: #24263c;
+  width: 240px;
+  position: fixed;
 }
 
 body .pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item {
@@ -115,6 +120,13 @@ td {
   padding: 0;
   list-style: none;
 }
+
+.navbar {
+  position: fixed;
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+}
+
 .nav li {
   float: left;
 }
@@ -191,14 +203,17 @@ section {
   float: left;
   width: 45%;
   padding: 5vh;
+  margin-top: 56px;
+  height: 100%;
   padding-left: 0;
   padding-right: 6vw;
 }
 
 .menuColumn {
   float: left;
-  width: 14vw;
+  width: 240px;
   margin-bottom: 0px;
+  margin-top: 56px;
 }
 
 .pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item > .pro-item-content {
@@ -207,23 +222,43 @@ section {
   color: white;
 }
 
+.pro-sidebar > .pro-sidebar-inner {
+  position: fixed;
+}
+
 .wcwOrder {
 }
 
 .contentColumn {
-  float: left;
-  width: 86vw;
-  padding-left: 0vw;
+  /* float: left; */
+
+  width: 100%;
+  /* padding-left: 20px; */
+
+  margin-left: 240px;
   margin-bottom: 0px;
+  margin-top: 56px;
 }
 
 .row {
+  display: inline-block;
   margin: 0px;
   padding: 0px;
 }
 
+.homeRow {
+  /* display: inline-block; */
+  margin: 0px;
+  padding: 0px;
+}
+
+.noteRow {
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+}
 /* Clear floats after the columns */
-.row:after {
+.noteRow:after {
   content: "";
   display: table;
   clear: both;
@@ -338,6 +373,7 @@ section {
   padding: 40px;
   margin-bottom: 20px;
   width: 100%;
+  margin-top: 56px;
   text-align: center;
   background: white;
 }

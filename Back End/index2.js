@@ -400,19 +400,19 @@ app.delete("/notes/:id", (req, res) => {
 });
 
 app.post("/notes", (req, res) => {
-  dbConnect.query(
-    `insert into notes (title,note,postDate) values ('${req.body.name}', '${req.body.note}',${req.body.postDate})`,
-    (err, rows, fields) => {
-      console.log("new note 392");
-      if (err) {
-        res.status(500);
-        res.send("Note creation failed");
-        return;
-      }
-      console.log("new note creation 398");
-      res.send("Note has been created");
+  const sql = `insert into Notes (title,note,postDate) values ('${req.body.name}', '${req.body.note}',current_timestamp())`;
+  console.log("sql: " + sql);
+
+  dbConnect.query(sql, (err, rows, fields) => {
+    console.log("new note 392");
+    if (err) {
+      res.status(500);
+      res.send("Note creation failed");
+      return;
     }
-  );
+    console.log("new note creation 398");
+    res.send("Note has been created");
+  });
 });
 
 app.listen(port, () => {

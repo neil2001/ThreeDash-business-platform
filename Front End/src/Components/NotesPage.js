@@ -52,15 +52,15 @@ const NotesPage = (props) => {
   };
 
   const noteSubmit = () => {
-    let number = Math.floor(Math.random() * 10000);
-    const postDate = new Date().toString();
-    const data = { number, name: title, note: message, postDate };
+    const data = { name: title, note: message };
     axios
       .post(dataURL, data)
       .then((result) => {
         //console.dir(result)
         //alert("result = " + result);
         //console.log('Data send');
+        setTitle("");
+        setMessage("");
         getNotes();
         //history.push("/wcw/manageOrders/current");
       })
@@ -81,7 +81,7 @@ const NotesPage = (props) => {
             <button
               className="noteDeleteButton"
               onClick={() => {
-                deleteClick(notes[i].number);
+                deleteClick(notes[i].noteID);
               }}
             >
               Delete
@@ -105,13 +105,18 @@ const NotesPage = (props) => {
               <input
                 className="longInput"
                 type="text"
+                value={title}
                 onChange={onTitleChange}
               />
             </div>
             <div>
               Message:
               <div>
-                <textarea className="tallInput" onChange={onMessageChange} />
+                <textarea
+                  className="tallInput"
+                  value={message}
+                  onChange={onMessageChange}
+                />
               </div>
             </div>
           </form>

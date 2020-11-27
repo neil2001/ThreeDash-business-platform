@@ -45,13 +45,11 @@ app.get("/orders", (req, res) => {
 app.post("/order", (req, res) => {
   const sql = `insert into orders (product, color, printTime, notes) values ('${req.body.product}', '${req.body.color}', 6.5, '${req.body.notes}')`;
   dbConnect.query(sql, (err, rows, fields) => {
-    console.log("new order 80");
     if (err) {
       res.status(500);
       res.send("Dataset query failed");
       return;
     }
-    console.log("new order creation 86");
     res.send("Order has been created");
   });
 });
@@ -61,12 +59,9 @@ app.post("/order", (req, res) => {
  */
 app.delete("/orders/:id", (req, res) => {
   const { id } = req.params;
-  console.log("id = " + id);
   const sql = `delete from orders where number=${id}`;
-  console.log("sql= " + sql);
   dbConnect.query(sql, (err, rows, fields) => {
     if (err) {
-      console.log("order deletion failed");
       res.status(500);
       res.send("Order deletion failed");
       return;
@@ -122,7 +117,6 @@ app.post("/assigned", (req, res) => {
               res.send("update orders status failed");
               return;
             }
-            console.log("assigned 140");
             connection.release();
             res.send("Order has been assigned");
           }
@@ -162,7 +156,6 @@ app.get("/shippedOrders", (req, res) => {
  */
 app.delete("/shippedOrders/:id", (req, res) => {
   const { id } = req.params;
-  console.log("id = " + id);
   dbConnect.query(
     `delete from Shipped where orderNumber=${id}`,
     (err, rows, fields) => {
@@ -182,7 +175,6 @@ app.delete("/shippedOrders/:id", (req, res) => {
  */
 app.delete("/assigned/:id", (req, res) => {
   const { id } = req.params;
-  console.log("id = " + id);
   dbConnect.query(
     `delete from Assignment where orderNumber=${id}`,
     (err, rows, fields) => {
@@ -202,9 +194,7 @@ app.delete("/assigned/:id", (req, res) => {
  * This function changes the given order status to be the value of the object passed in, generally "Not Complete".
  */
 app.put("/assigned/:id", (req, res) => {
-  console.log("updating assignments");
   const { id } = req.params;
-  console.log("id = " + id);
 
   const keyName = Object.keys(req.body)[0];
   dbConnect.getConnection((err, connection) => {
@@ -241,7 +231,6 @@ app.put("/assigned/:id", (req, res) => {
  */
 app.post("/shippedOrders", (req, res) => {
   dbConnect.getConnection((err, connection) => {
-    console.log("connected 121");
     connection.query(
       `insert into Shipped (orderNumber,shipDate) values ('${req.body.number}', CURRENT_TIMESTAMP())`,
       (err, rows, fields) => {
@@ -260,7 +249,6 @@ app.post("/shippedOrders", (req, res) => {
               res.send("update orders status failed");
               return;
             }
-            console.log("assigned 140");
             connection.release();
             res.send("Order has been shipped");
           }
@@ -293,19 +281,14 @@ app.get("/printData", (req, res) => {
  */
 app.put("/printData/newPrint/:printerName", (req, res) => {
   const { printerName } = req.params;
-  // const sql = `update Printer set orderNumber=${req.body.number}, product='${req.body.product}', printTime='${req.body.printTime}', startTime=${req.body.startTime} where name='${printerName}'`;
-  // console.log("sql= " + sql);
   dbConnect.query(
     `update Printer set orderNumber=${req.body.number}, product='${req.body.product}', printTime='${req.body.printTime}', startTime=current_timestamp() where name='${printerName}'`,
     (err, rows, fields) => {
       if (err) {
-        console.log("send Fail");
         res.status(500);
         res.send("New print failed");
         return;
       }
-
-      console.log("print sent successfully");
       res.send(rows[0]);
     }
   );
@@ -321,7 +304,6 @@ app.put("/printData/clear/:printerName", (req, res) => {
     `update Printer set orderNumber=null, product=null, printTime=null,startTime=null where name='${printerName}'`,
     (err, rows, fields) => {
       if (err) {
-        console.log("clear failed");
         res.status(500);
         res.send("Dataset query failed");
         return;
@@ -387,7 +369,6 @@ app.get("/notes", (req, res) => {
  */
 app.delete("/notes/:id", (req, res) => {
   const { id } = req.params;
-  console.log("id = " + id);
 
   dbConnect.query(
     `delete from Notes where noteID=${id}`,
@@ -407,20 +388,15 @@ app.delete("/notes/:id", (req, res) => {
  */
 app.post("/notes", (req, res) => {
   const sql = `insert into Notes (title,note,postDate) values ('${req.body.name}', '${req.body.note}',current_timestamp())`;
-  console.log("sql: " + sql);
 
   dbConnect.query(sql, (err, rows, fields) => {
-    console.log("new note 392");
     if (err) {
       res.status(500);
       res.send("Note creation failed");
       return;
     }
-    console.log("new note creation 398");
     res.send("Note has been created");
   });
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+app.listen(port, () => {});

@@ -234,7 +234,7 @@ section {
 
   width: 100%;
   /* padding-left: 20px; */
-
+  /* overflow: hidden; */
   margin-left: 240px;
   margin-bottom: 0px;
   margin-top: 56px;
@@ -244,6 +244,7 @@ section {
   display: inline-block;
   margin: 0px;
   padding: 0px;
+  width: calc(100% - 240px);
 }
 
 .homeRow {

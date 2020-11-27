@@ -41,22 +41,29 @@ const AssigningPage = () => {
    */
   return (
     <div>
-      <h1 className="centerDiv">Now Assigning: Order {orderNum}</h1>
-      <div className="assignForm">
-        <form>
-          <p>Assign To:</p>
-          <input type="text" name="assignment" onChange={onAssignmentChange} />
-        </form>
-        <div>
-          <button
-            onClick={() => {
-              assignClick();
-            }}
-          >
-            Assign
-          </button>
+      <section>
+        <h1 className="titleDiv">Now Assigning: Order {orderNum}</h1>
+        <div className="">
+          <form>
+            <h3>Assign To:</h3>
+            <input
+              type="text"
+              name="assignment"
+              onChange={onAssignmentChange}
+            />
+          </form>
+          <div>
+            <button
+              className="buttonMargin"
+              onClick={() => {
+                assignClick();
+              }}
+            >
+              Assign
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

@@ -25,7 +25,7 @@ This application was created in order to better keep track of orders and enable 
 Frontend
 
 ```sh
-$ cd "Front End"
+$ cd frontend
 $ npm install
 $ npm start
 ```
@@ -33,15 +33,19 @@ $ npm start
 Backend
 
 ```sh
-$ cd "Back End"
+$ cd backend
 $ npm install
 ```
 
-Start MySQL server, then run the following command to create the wcw database with all the tables using your root username and password
+If you do not have MySQL Community Server installed, download MySQL here: https://dev.mysql.com/downloads/mysql/ and start up the server
+
+Then run the following command to create the wcw database with all the tables using your root username and password
 
 ```sh
 $ mysql wcw -u root -p < wcw.sql
 ```
+
+If you are not using the default port for MySQL server (3306), please modify index2.js under the "backend" folder to set the MySQL port to your port.
 
 Start Express server
 
@@ -62,11 +66,10 @@ Follow these stepts to demo this application:
 
 3. Click the "Create New Order" button to input a new order:
 
-- Do not input a number, as the number is auto incremented.
-- Select Tenor Mouthpiece
-- Select Jazz Bright
-- Select Open
-- Select Blue
+- Select a Mouthpiece
+- Select a Genre
+- Select a Tip Opening
+- Select a Color
 - Write a note if you would like
 - Submit
 

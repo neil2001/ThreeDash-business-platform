@@ -255,15 +255,17 @@ section {
 
 .noteRow {
   display: flex;
+  flex-wrap: wrap;
   margin: 0px;
   padding: 0px;
 }
+
 /* Clear floats after the columns */
-.noteRow:after {
+/* .noteRow:after {
   content: "";
   display: table;
   clear: both;
-}
+} */
 
 .longInput {
   width: 25vw;

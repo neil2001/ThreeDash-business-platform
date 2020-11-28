@@ -60,7 +60,7 @@ const NotesPage = (props) => {
    * creates a new note using the backend
    */
   const noteSubmit = () => {
-    const data = { name: title, note: message };
+    const data = { title, note: message };
     axios
       .post(dataURL, data)
       .then((result) => {
@@ -84,8 +84,8 @@ const NotesPage = (props) => {
     const rows = [];
     for (let i = notes.length - 1; i >= 0; i--) {
       rows.push(
-        <div className="noteBox">
-          <h3>{notes[i].name}</h3>
+        <div key={"note_" + i} className="noteBox">
+          <h3>{notes[i].title}</h3>
           <p>{notes[i].note}</p>
           <div>
             <p>Posted: {notes[i].postDate}</p>

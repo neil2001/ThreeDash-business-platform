@@ -404,7 +404,7 @@ app.delete("/notes/:id", (req, res) => {
  */
 app.post("/notes", (req, res) => {
   dbConnect.query(
-    utility.formatter(queries.sql.newNote, req.body.name, req.body.note),
+    utility.formatter(queries.sql.newNote, req.body.title, req.body.note),
     (err, rows, fields) => {
       if (err) {
         res.status(500);

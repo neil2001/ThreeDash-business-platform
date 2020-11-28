@@ -212,6 +212,9 @@ const PrinterStatus = (props) => {
         <input type="number" name="orderNumber" onChange={onNumberChange} />
         <p>Product</p>
         <select name="product" onChange={onProductChange}>
+          <option value="" disabled selected>
+            Choose
+          </option>
           <option value="Alto Mouthpiece">Alto Mouthpiece</option>
           <option value="Tenor Mouthpiece">Tenor Mouthpiece</option>
           <option value="Bari Mouthpiece">Bari Mouthpiece</option>

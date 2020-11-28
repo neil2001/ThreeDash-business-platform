@@ -50,7 +50,7 @@ If you are not using the default port for MySQL server (3306), please modify ind
 Start Express server
 
 ```sh
-$ node index2.js
+$ node index.js
 ```
 
 # Usage
